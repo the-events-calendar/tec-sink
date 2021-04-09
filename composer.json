@@ -1,0 +1,58 @@
+{
+  "name": "the-events-calendar/tec-sink",
+  "description": "TEC Plugin Kitchen Sink",
+  "type": "wordpress-plugin",
+  "keywords": [
+    "wordpress",
+    "events"
+  ],
+  "homepage": "https://theeventscalendar.com/",
+  "license": "GPL-2.0",
+  "require-dev": {
+    "php": ">=7.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
+    "wp-coding-standards/wpcs": "^2.1",
+    "automattic/vipwpcs": "^2.0",
+    "the-events-calendar/tribalscents": "dev-master",
+    "the-events-calendar/tec-testing-facilities": "dev-master",
+    "lucatume/wp-browser": "^2.4.7",
+    "codeception/module-asserts": "^1.0",
+    "codeception/module-phpbrowser": "^1.0",
+    "codeception/module-webdriver": "^1.0",
+    "codeception/module-db": "^1.0",
+    "codeception/module-filesystem": "^1.0",
+    "codeception/module-cli": "^1.0",
+    "codeception/util-universalframework": "^1.0",
+    "codeception/module-rest": "^1.0",
+    "lucatume/codeception-snapshot-assertions": "0.*",
+    "vlucas/phpdotenv": "^3.0",
+    "spatie/phpunit-snapshot-assertions": "^1.4"
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "config": {
+    "preferred-install": "dist",
+    "platform": {
+      "php": "7.0.33"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "TEC\\Sink\\": "src/TEC"
+    }
+  },
+  "repositories": [
+    {
+      "name": "the-events-calendar/tec-testing-facilities",
+      "type": "github",
+      "url": "https://github.com/the-events-calendar/tec-testing-facilities",
+      "no-api": true
+    },
+    {
+      "name": "the-events-calendar/TribalScents",
+      "type": "github",
+      "url": "https://github.com/the-events-calendar/TribalScents",
+      "no-api": true
+    }
+  ]
+}
