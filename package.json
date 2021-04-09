@@ -1,0 +1,26 @@
+{
+  "name": "tec-sink",
+  "version": "0.1.0",
+  "description": "A kitchen sink utility for TEC plugins",
+  "dependencies": {
+    "autoprefixer": "^10.2.5",
+    "tailwindcss": "^2.1.1"
+  },
+  "devDependencies": {
+    "postcss": "^8.2.9",
+    "postcss-cli": "^8.3.1"
+  },
+  "scripts": {
+    "build": "tailwindcss build src/resources/postcss/tec-sink.pcss -o src/resources/css/tec-sink.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the-events-calendar/tec-sink.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/the-events-calendar/tec-sink/issues"
+  },
+  "homepage": "https://github.com/the-events-calendar/tec-sink#readme"
+}

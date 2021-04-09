@@ -90,6 +90,33 @@ class Plugin extends \tad_DI52_ServiceProvider {
 
 		// End binds.
 
+		// @todo: Fix all this madness. THIS IS ALL HACKY FOR TESTING PURPOSES
+		$obj = $this;
+
+		add_action( 'init', static function() use ( $obj ) {
+			add_rewrite_endpoint( 'tec-sink', EP_PERMALINK );
+			wp_enqueue_style( 'tec-sink', $obj->plugin_url . '/src/resources/css/tec-sink.css' );
+
+			if ( ! empty( $_GET['suppress-topbar'] ) ) {
+				add_filter( 'show_admin_bar', '__return_false' );
+			}
+		} );
+
+		add_filter( 'request', static function( $vars ) {
+			if ( isset( $vars['pagename'] ) && 'tec-sink' === $vars['pagename'] ) {
+				$vars['tec-sink'] = true;
+			}
+
+			return $vars;
+		} );
+
+		add_filter( 'template_include', function( $template ) {
+			if ( ! get_query_var( 'tec-sink' ) ) {
+				return $template;
+			}
+
+			return $this->plugin_path . '/src/views/dashboard.php';
+		} );
 	}
 
 	/**
