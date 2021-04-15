@@ -9,6 +9,8 @@
 
 namespace TEC\Sink;
 
+use TEC\Sink\Rewrite\Rewrite_Provider;
+use TEC\Sink\Views\View_Provider;
 use Tribe__Autoloader;
 
 /**
@@ -82,41 +84,42 @@ class Plugin extends \tad_DI52_ServiceProvider {
 
 		// Register this provider as the main one and use a bunch of aliases.
 		$this->container->singleton( static::class, $this );
-		$this->container->singleton( 'tec-sink', $this );
+		$this->container->singleton( static::SLUG, $this );
 
 		$this->load_template_tags();
 
 		// Start binds.
 
+		$this->container->register( Assets::class );
+		$this->container->register( Rewrite_Provider::class );
+		$this->container->register( View_Provider::class );
+
+		if ( ! empty( $_GET['tec_sink_theme'] ) ) {
+			setcookie( 'tec-sink-theme', $_GET['tec_sink_theme'], 0, '/' );
+		}
+
+		$remove_theme_override = false;
+
+		if (
+			! empty( $_GET['action'] )
+			&& ! empty( $_GET['stylesheet'] )
+			&& 'activate' === $_GET['action']
+		) {
+			setcookie( 'tec-sink-theme' );
+			unset( $_COOKIE['tec-sink-theme'] );
+			$remove_theme_override = true;
+		}
+
+		if (
+			! $remove_theme_override
+			&& ! empty( $_COOKIE['tec-sink-theme'] )
+			&& ! preg_match( '!^/tec-sink/!', $_SERVER['REQUEST_URI'] )
+		) {
+			add_filter( 'template', static function() { return $_COOKIE['tec-sink-theme']; } );
+			add_filter( 'option_template', static function() { return $_COOKIE['tec-sink-theme']; } );
+			add_filter( 'option_stylesheet', static function() { return $_COOKIE['tec-sink-theme']; } );
+		}
 		// End binds.
-
-		// @todo: Fix all this madness. THIS IS ALL HACKY FOR TESTING PURPOSES
-		$obj = $this;
-
-		add_action( 'init', static function() use ( $obj ) {
-			add_rewrite_endpoint( 'tec-sink', EP_PERMALINK );
-			wp_enqueue_style( 'tec-sink', $obj->plugin_url . '/src/resources/css/tec-sink.css' );
-
-			if ( ! empty( $_GET['suppress-topbar'] ) ) {
-				add_filter( 'show_admin_bar', '__return_false' );
-			}
-		} );
-
-		add_filter( 'request', static function( $vars ) {
-			if ( isset( $vars['pagename'] ) && 'tec-sink' === $vars['pagename'] ) {
-				$vars['tec-sink'] = true;
-			}
-
-			return $vars;
-		} );
-
-		add_filter( 'template_include', function( $template ) {
-			if ( ! get_query_var( 'tec-sink' ) ) {
-				return $template;
-			}
-
-			return $this->plugin_path . '/src/views/dashboard.php';
-		} );
 	}
 
 	/**
@@ -131,7 +134,7 @@ class Plugin extends \tad_DI52_ServiceProvider {
 		$autoloader->register_prefix(
 			'\\TEC\\Sink\\',
 			$this->plugin_path . '/src/TEC',
-			'tec-sink'
+			static::SLUG
 		);
 	}
 
