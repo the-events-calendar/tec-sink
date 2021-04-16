@@ -53,16 +53,16 @@ $url = add_query_arg(
 				<?php endforeach; ?>
 			</select>
 		</section>
-		<?php foreach ( $sections as $section_name => $section ) : ?>
+		<?php foreach ( $sections as $section_slug => $section ) : ?>
 			<section class="mb-4">
-				<header class="uppercase font-bold text-xs text-gray-500"><?php echo esc_html( $section_name ); ?></header>
+				<header class="uppercase font-bold text-xs text-gray-500"><?php echo esc_html( $section['name'] ); ?></header>
 				<ul class="list-none p-0 text-sm">
-					<?php foreach ( $section as $location_title => $location ) : ?>
+					<?php foreach ( $section['topics'] as $topic ) : ?>
 						<?php
 						$location_url = home_url( tribe( \TEC\Sink\Rewrite\Rewrite_Provider::class )->endpoint );
-						$location_url = add_query_arg( $location, $location_url );
+						$location_url = add_query_arg( $topic->get_url_args(), $location_url );
 						?>
-						<li class="p-0"><a href="<?php echo esc_url( $location_url ); ?>" class="text-gray-50 hover:underline"><?php echo esc_html( $location_title ); ?></a></li>
+						<li class="p-0"><a href="<?php echo esc_url( $location_url ); ?>" class="text-gray-50 hover:underline"><?php echo esc_html( $topic->get_name() ); ?></a></li>
 					<?php endforeach; ?>
 				</ul>
 			</section>

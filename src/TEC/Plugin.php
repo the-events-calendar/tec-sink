@@ -10,7 +10,8 @@
 namespace TEC\Sink;
 
 use TEC\Sink\Rewrite\Rewrite_Provider;
-use TEC\Sink\Views\View_Provider;
+use TEC\Sink\Topics\Topics_Provider;
+use TEC\Sink\Views\Views_Provider;
 use Tribe__Autoloader;
 
 /**
@@ -92,19 +93,13 @@ class Plugin extends \tad_DI52_ServiceProvider {
 
 		$this->container->register( Assets::class );
 		$this->container->register( Rewrite_Provider::class );
-		$this->container->register( View_Provider::class );
-
-		if ( ! empty( $_GET['tec_sink_theme'] ) ) {
-			setcookie( 'tec-sink-theme', $_GET['tec_sink_theme'], 0, '/' );
-		}
+		$this->container->register( Topics_Provider::class );
+		$this->container->register( Views_Provider::class );
 
 		$remove_theme_override = false;
 
-		if (
-			! empty( $_GET['action'] )
-			&& ! empty( $_GET['stylesheet'] )
-			&& 'activate' === $_GET['action']
-		) {
+		// If we're setting a theme, remove the cookie.
+		if ( ! empty( $_COOKIE['tec-sink-theme'] ) && ! empty( $_GET['activated'] ) ) {
 			setcookie( 'tec-sink-theme' );
 			unset( $_COOKIE['tec-sink-theme'] );
 			$remove_theme_override = true;

@@ -8,16 +8,13 @@
 
 namespace TEC\Sink\Views;
 
-use TEC\Sink\Assets;
-use TEC\Sink\Plugin;
-
 /**
  * Class View_Provider
  *
  * @since 0.1.0
- * @package TEC\Sink\Rewrite
+ * @package TEC\Sink\Views
  */
-class View_Provider extends \tad_DI52_ServiceProvider {
+class Views_Provider extends \tad_DI52_ServiceProvider {
 	/**
 	 * @var bool
 	 */

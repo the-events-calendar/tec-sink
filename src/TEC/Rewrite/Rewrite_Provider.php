@@ -8,8 +8,6 @@
 
 namespace TEC\Sink\Rewrite;
 
-use TEC\Sink\Plugin;
-
 /**
  * Class Rewrite_Provider
  *

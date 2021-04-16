@@ -10,6 +10,7 @@ namespace TEC\Sink\Views;
 
 use TEC\Sink\Assets;
 use TEC\Sink\Plugin;
+use TEC\Sink\Topics;
 
 class Sink {
 
@@ -39,22 +40,15 @@ class Sink {
 	 */
 	public function get_sections() {
 		$sections = [
-			'Components' => [
-				'CTAs' => [
-					'topic' => 'cta',
-				],
-				'Date Pickers' => [
-					'topic' => 'datepicker',
-				],
-				'Navigation' => [
-					'topic' => 'navigation',
+			'components' => [
+				'name'   => 'Components',
+				'topics' => [
+					tribe( Topics\Date_Pickers::class ),
 				],
 			],
-			'Dashboard' => [
-				'Forms' => [
-					'topic' => 'components',
-					'dashboard' => true,
-				],
+			'dashboard' => [
+				'name'   => 'Dashboard',
+				'topics' => [],
 			],
 		];
 
