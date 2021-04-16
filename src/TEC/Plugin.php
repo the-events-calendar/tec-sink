@@ -96,8 +96,9 @@ class Plugin extends \tad_DI52_ServiceProvider {
 		$this->container->register( Topics_Provider::class );
 		$this->container->register( Views_Provider::class );
 
-		$remove_theme_override = false;
+		// @TODO: The following is temporarily here as I test and play with shit. I'll find a home for it once I know how it'll work :D
 
+		$remove_theme_override = false;
 		// If we're setting a theme, remove the cookie.
 		if ( ! empty( $_COOKIE['tec-sink-theme'] ) && ! empty( $_GET['activated'] ) ) {
 			setcookie( 'tec-sink-theme' );
